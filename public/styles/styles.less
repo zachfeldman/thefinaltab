@@ -1,0 +1,20 @@
+.opacity(@opacity: 0.5){
+  @opacitym: @opacity*100;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{opacitym})";
+  filter: alpha(opacity=@opacitym);
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  opacity: @opacity;
+}
+
+.delete-opacity{
+  .opacity(0.5);
+}
+
+.trash{
+  position: absolute; top: 25px; left: 19px; font-size: 20px;
+}
+
+.userPicture{
+  position: relative;
+}

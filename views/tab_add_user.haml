@@ -1,0 +1,60 @@
+%script{:src => '/scripts/tab_add_user.js'}
+%br
+%div{:id => "emails"}
+%h1
+  Modify
+  =@tab.name  
+  Participants
+%form{:id => "tabForm", :method => "get", :action => "/tabs/process"}
+  Write the Facebook e-mail address of a Flat Mate Tools user here to add them to the tab or send them an invitation e-mail.
+  %br
+  %input{:name => "tabUsers", :placeholder => "johnsmith@aol.com"}
+  %button.btn.addTabUser{:type => "button"}
+    Add to Tab
+  %br
+  %span.result
+  %br
+  %br
+  %input.allUserIds{:type => "hidden"}
+  %table{:id => "userTable", :style => "position: relative; left: 20px"}
+    %tr
+      %td
+      %td
+    -@tab.users.all.each do |user|
+      %tr{:id => user.id}
+        -if(user.picture == nil)
+          %td.userPicture{:id => user.id.to_s, :class => "userDeleteButton",}
+            %img{:src => "/images/defaultprofile.png", :name => user.email}
+            .trash.icon-trash.hide{:id => 'trash' + user.id.to_s}
+        -else
+          %td.userPicture{:id => user.id.to_s, :class => "userDeleteButton",}
+            %img{:src => user.picture, :class => "userDeleteButton", :name => user.name}
+            .trash.icon-trash.hide{:id => 'trash' + user.id.to_s}
+        -if(user.name == nil)
+          %td
+            &nbsp;&nbsp;
+            %span{:class => user.id, :id => "userId"}
+              =user.email
+        -else
+          %td
+            &nbsp;&nbsp;
+            %span{:class => user.id, :id => "userId"}
+              =user.name
+  %br      
+  %input.btn.btn-large.addTab{:type => "submit"}
+    Create Tab
+%div{:class => @tab.id, :id => 'tabId'}
+.modal.hide.fade{:id => "deleteModal"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3 Delete participant
+  .modal-body
+    %p 
+      Are you sure you want to delete
+      %b
+        %span{:id => 'userDelete'}
+        %span.hide{:id => 'userDeleteId'}
+      from this tab? Any part of what they owe will be equally distributed amongs remaining tab participants.
+  .modal-footer
+    %a.btn{:href => "#", :id => "closeDelete"} Close
+    %a.btn.btn-danger{:href => "#", :id => "deleteUser"} Delete

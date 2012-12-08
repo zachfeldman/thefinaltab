@@ -1,0 +1,67 @@
+%script{:src => '/scripts/tab.js'}
+%link{:rel => 'stylesheet', :href => '/styles/tabs.css'}
+%h1
+  =@tab.name
+%a.btn.btn-large.btn-primary{:href => "/tabs/#{@tab.id}/settle"}
+  Settle
+%h3
+  Participants
+%table{:id => "users", :cellpadding => "10"}
+  -@tab.users.each do |user|
+    %tr
+      %td
+        %img{:src => user.picture}
+      %td
+        &nbsp;&nbsp;
+        %span{:class => user.id, :id => "userId"}
+        =user.name
+%br
+%a.btn.btn-medium{:href => "/tabs/#{@tab.id}/add"}
+  Add
+%br
+%form{:id => "newBill"} 
+  %table{:id => "addBill", :style => "display: none", :action => ""}
+    %tr
+      %td
+        %input{:name => "billName", :placeholder => "Bill name", :id => "billName"}
+      %td
+        %input{:name => "billAmount", :placeholder => "Bill amount", :id => "billAmount", :class=> "input-small"}
+        %input{:type => "hidden", :id => "billUser", :name => "billUser"}
+        %input{:type => "hidden", :id => "billTab", :name => "billTab", :value => @tab.id}
+      %td
+        %textarea{"name" => "billNotes", :placeholder => "Bill notes", :id => "billNotes"}
+      %td
+        %button.btn.btn-inverse{:id => "billSubmit", :type=> "submit"}
+          Add Bill
+%span.newBillMsg
+%h3
+  Bills
+%table{:id => "bills", :style => "border: 2px dotted #CCCCCC;", :border => "2", :cellpadding => "6px"}
+  %thead
+    %tr
+      %td
+        %strong
+          Bill
+      %td
+        %strong
+          Amount
+      %td
+        %strong
+          Paid By
+      %td
+        %strong
+          Notes
+  %tbody
+    =will_paginate @bills
+    -@bills.each do |bill|
+      %tr 
+        %td 
+          %input{:name => "billName", :value => bill.name, :id => "billName"}
+        %td 
+          %input{:name => "billAmount", :value => bill.amount, :id => "billAmount", :class=> "input-small"}
+        %td 
+          %input{:name => "billUser", :value => bill.user.name, :id => "billUser", :disabled => ""}
+        %td
+          %textarea{"name" => "billNotes", :value => bill.notes, :id => "billNotes"}  
+          %input{:type => "hidden", :id => "billUser", :name => "billUser"}
+          %input{:type => "hidden", :id => "billTab", :name => "billTab", :value => @tab.id}          

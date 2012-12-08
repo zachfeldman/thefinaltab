@@ -1,0 +1,18 @@
+-if(@user.name == nil)
+  -name = @user.email
+  %tr
+    %td
+      %img{:src => '/images/defaultprofile.png', :width => '50', :height => '50'}
+    %td
+      &nbsp;&nbsp;
+      %span{:class => @user.id, :id => "userId"}
+      =name
+-else
+  -name = @user.name
+  %tr
+    %td
+      %img{:src => @user.picture}
+    %td
+      &nbsp;&nbsp;
+      %span{:class => @user.id, :id => "userId"}
+      =name

@@ -1,0 +1,9 @@
+%tr 
+  %td 
+    %input{:name => "billName", :value => @bill.name, :id => "billName"}
+  %td 
+    %input{:name => "billAmount", :value => @bill.amount, :id => "billAmount", :class=> "input-small"}
+  %td
+    %textarea{"name" => "billNotes", :value => @bill.notes, :id => "billNotes"}  
+    %input{:type => "hidden", :id => "billUser", :name => "billUser"}
+    %input{:type => "hidden", :id => "billTab", :name => "billTab", :value => @bill.tab.id}          

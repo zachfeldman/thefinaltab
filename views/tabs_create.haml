@@ -1,0 +1,31 @@
+%script{:src => '/scripts/create_tab.js'}
+%br
+%div{:id => "emails"}
+%h1
+  Create New Tab  
+%form{:id => "tabForm", :method => "get", :action => "/tabs/process"}
+  %input{:name => "tabName", :placeholder => "Name"}
+  %span.tabNameMsg
+  %br
+  %br
+  %textarea{:name => "tabNotes", :placeholder => "Write any notes about this tab here."}
+  %span.tabNotesMsg  
+  %br
+  %br
+  Write the Facebook e-mail address of a Flat Mate Tools user here to add them to the tab or send them an invitation e-mail.
+  %br
+  %input{:name => "tabUsers", :placeholder => "johnsmith@aol.com"}
+  %button.btn.addTabUser{:type => "button"}
+    Add to Tab
+  %br
+  %span.result
+  %br
+  %br
+  %input.allUserIds{:type => "hidden"}
+  %table{:id => "userTable", :style => "position: relative; left: 20px"}
+    %tr
+      %td
+      %td
+  %br      
+  %input.btn.btn-large.addTab{:type => "submit"}
+    Create Tab

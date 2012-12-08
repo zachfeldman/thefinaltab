@@ -1,0 +1,11 @@
+.ui-selected{
+	background-color: #CED7E5;
+	border: 2px dashed #CCCCCC;
+}
+tr{
+	vertical-align: top;
+}
+#billSubmit{
+	position: relative;
+	top: -2px;
+}
