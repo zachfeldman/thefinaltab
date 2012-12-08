@@ -21,16 +21,24 @@
             %br
             %span.motto
               It's settled.
+
           %br
           %br
           %ul.nav.nav-pills
-            %li.home
-              %a{:href => "/"}
-                Home
-            %li.tabs
-              %a{:href => "/tabs"}
-                Open Tabs
-            %li.profile
-              %a{:href => "/profile"}
-                Profile
+            -if(request.path_info.start_with?("/"))
+              %li.tabs{:class=>"active"}
+                %a{:href => "/",}
+                  Home
+            -else
+              %li.tabs
+                %a{:href => "/",}
+                  Home
+            -if(request.path_info.start_with?("/tabs"))
+              %li.tabs{:class=>"active"}
+                %a{:href => "/tabs",}
+                  Tabs
+            -else
+              %li.tabs
+                %a{:href => "/tabs",}
+                  Tabs
           =yield
