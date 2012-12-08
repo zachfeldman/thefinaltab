@@ -1,3 +1,4 @@
+/* mix-ins */
 .opacity(@opacity: 0.5){
   @opacitym: @opacity*100;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{opacitym})";
@@ -7,6 +8,7 @@
   opacity: @opacity;
 }
 
+/* modify-user page */
 .delete-opacity{
   .opacity(0.5);
 }
@@ -17,4 +19,22 @@
 
 .userPicture{
   position: relative;
+}
+
+/*layout*/
+img.logo{
+  float:left;
+  width: 75px;
+}
+.header{
+  display: inline-block;
+  padding: 10px 0 0 14px;
+}
+.headerText{
+  font-size: 38px;
+}
+.motto{
+  font-size: 9px;
+  font-style:italic;
+  padding-left: 3px;
 }
