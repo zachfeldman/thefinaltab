@@ -3,6 +3,7 @@ require 'sinatra'
 require 'haml'
 require 'net/https'
 require 'mail'
+require 'debugger'
 require './controllers/sendmail'
 require './controllers/calculate'
 require 'will_paginate'
@@ -57,7 +58,7 @@ class Bill
   include DataMapper::Resource
     property :id,   Serial
     property :name, Text 
-    property :amount, Integer
+    property :amount, Float
     property :notes, Text
 
     belongs_to :user
@@ -160,6 +161,11 @@ get '/tabs/:id' do
 	@tab = tab
 	@bills = tab.bills.paginate(:page => params[:page], :per_page => 3)
 	haml :tab_view
+end
+
+get '/tabs/:id/settle' do
+  @debts = calculate_owed(params[:id])
+  haml :tab_settle
 end
 
 post '/bills/new' do
