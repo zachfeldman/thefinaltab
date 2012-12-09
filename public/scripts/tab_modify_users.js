@@ -42,6 +42,7 @@ $(document).ready(function() {
 
   $(".userDeleteButton").click( function(){
     var name = $(this).attr("name");
+    console.log(name);
     var id = $(this).attr("id");
     $("#userDelete").text(name);
     $("#userDeleteId").text(id);
@@ -52,7 +53,6 @@ $(document).ready(function() {
     var id = $(this).attr("id");
     $("#trash"+id).removeClass('hide');
     $("#trash"+id).show();
-    console.log("#trash"+id);
     $(this).children("img").addClass('delete-opacity');
   }, function(){
     var id = $(this).attr("id");

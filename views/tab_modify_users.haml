@@ -21,14 +21,9 @@
       %td
     -@tab.users.all.each do |user|
       %tr{:id => user.id}
-        -if(user.picture == nil)
-          %td.userPicture{:id => user.id.to_s, :class => "userDeleteButton",}
-            %img{:src => "/images/defaultprofile.png", :name => user.email}
-            .trash.icon-trash.hide{:id => 'trash' + user.id.to_s}
-        -else
-          %td.userPicture{:id => user.id.to_s, :class => "userDeleteButton",}
-            %img{:src => user.picture, :class => "userDeleteButton", :name => user.name}
-            .trash.icon-trash.hide{:id => 'trash' + user.id.to_s}
+        %td.userPicture{:id => user.id.to_s, :class => deleteAllowed(session["user_id"], user.id), :name => user.email}
+          %img{:src => picture(user.picture)}
+          .trash.icon-trash.hide{:id => 'trash' + user.id.to_s}
         -if(user.name == nil)
           %td
             &nbsp;&nbsp;

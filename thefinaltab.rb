@@ -82,6 +82,21 @@ helpers do
 	def partial(page, options={})
 		haml page, options.merge!(:layout => false)
 	end
+  def picture(userPicture)
+    if(userPicture == nil)
+      return "/images/defaultprofile.png"
+    else
+      return userPicture
+    end
+  end
+  def deleteAllowed(sessionUserId, theUserId)
+    if(sessionUserId == theUserId)
+      return ""
+    else
+      return "userDeleteButton"
+    end
+  end
+
 end
 
 get '/' do
@@ -140,6 +155,7 @@ end
 
 get '/tabs/:id/add' do
   @tab = Tab.first(:id => params[:id])
+  @user = session[:user_id]
   return haml :tab_modify_users
 end
 
