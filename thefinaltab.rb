@@ -96,7 +96,13 @@ helpers do
       return "userDeleteButton"
     end
   end
-
+  def nameOrEmail(billUser)
+    if(billUser.name == nil)
+      return billUser.email
+    else
+      return billUser.name
+    end
+  end
 end
 
 get '/' do

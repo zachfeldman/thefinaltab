@@ -65,7 +65,7 @@ To add a new bill, simply click the user's name who paid the bill from the list 
         %td 
           %input{:name => "billAmount", :value => "%.2f" % bill.amount, :id => "billAmount", :class=> "input-small"}
         %td 
-          %input{:name => "billUser", :value => bill.user.name, :id => "billUser", :disabled => ""}
+          %input{:name => "billUser", :value => nameOrEmail(bill.user), :id => "billUser", :disabled => ""}
         %td
           %textarea{"name" => "billNotes", :value => bill.notes, :id => "billNotes"}  
           %input{:type => "hidden", :id => "billUser", :name => "billUser"}

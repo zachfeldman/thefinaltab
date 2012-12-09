@@ -30,20 +30,6 @@ $(document).ready(function() {
 
 	$('#billAmount').money_field();	
 
-/*
-	$( "#users").selectable({
-		 filter:'tr',
-        selected: function(event, ui){
-            
-						var s=$(this).find('.ui-selected td span').attr("class");
-            console.log(s);
-						$("#billUser").attr("value",s);
-						
-						$("#addBill").fadeIn('slow');
-						
-      }		
-	});*/
-
   $( "#users tr").click(function() {
     $(this).addClass("ui-selected").siblings().removeClass("ui-selected");
     var s=$(this).find('td span').attr("class");
@@ -85,5 +71,12 @@ $(document).ready(function() {
 			}   
 		});
 	});
+
+  $("input[billname]").change( function(){
+    $(this).focusOut( function(){
+        alert('hi');
+    });
+
+  });
 
 });
