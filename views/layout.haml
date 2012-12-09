@@ -33,7 +33,7 @@
               %li.tabs
                 %a{:href => "/"}
                   Home
-            -if(@user != nil)
+            -if(session[:user_id] != nil)
               -if(request.path_info.start_with?("/tabs"))
                 %li.tabs{:class=>"active"}
                   %a{:href => "/tabs"}

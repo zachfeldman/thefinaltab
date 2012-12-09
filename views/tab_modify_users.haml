@@ -1,4 +1,4 @@
-%script{:src => '/scripts/tab_add_user.js'}
+%script{:src => '/scripts/tab_modify_users.js'}
 %div{:id => "emails"}
 %h1
   Modify
@@ -13,6 +13,7 @@
   %br
   %span.result
   %br
+  To delete a user, click on their icon.
   %input.allUserIds{:type => "hidden"}
   %table{:id => "userTable", :style => "position: relative; left: 20px"}
     %tr
@@ -51,7 +52,7 @@
       %b
         %span{:id => 'userDelete'}
         %span.hide{:id => 'userDeleteId'}
-      from this tab? Any part of what they owe will be equally distributed amongs remaining tab participants.
+      from this tab? Any bill associated with this tab/user will also be destroyed.
   .modal-footer
     %a.btn{:href => "#", :id => "closeDelete"} Close
     %a.btn.btn-danger{:href => "#", :id => "deleteUser"} Delete

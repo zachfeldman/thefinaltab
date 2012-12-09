@@ -132,12 +132,15 @@ end
 post '/tabs/:tabId/deleteuser/:userId' do
   tab = Tab.first(:id => params[:tabId])
   user = User.first(:id => params[:userId])
+  tab.bills(:user_id => user.id).destroy
+  tab.users.delete(user)
+  tab.users.save
   return true
 end
 
 get '/tabs/:id/add' do
   @tab = Tab.first(:id => params[:id])
-  return haml :tab_add_user
+  return haml :tab_modify_users
 end
 
 get '/tabs/process' do
@@ -211,7 +214,6 @@ get '/auth/:name/callback' do
 end
 
 get '/home' do
-	puts current_user
 	@user = current_user 
 	haml :home
 end
