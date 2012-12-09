@@ -140,15 +140,9 @@ get '/tabs/:id/add' do
 end
 
 get '/tabs/process' do
-	tab = current_user.tabs.first(:name => params[:tabName], :notes => params[:tabNotes], :amount => params[:tabAmount]) 
+	tab = current_user.tabs.first(:name => params[:tabName], :notes => params[:tabNotes]) 
 	if(tab == nil)		
 		tab = Tab.create(:name => params[:tabName], :notes => params[:tabNotes])
-		users = params[:tabUsers]
-		users.split(',').each do |email|
-			user = User.first(:email => email)
-			user.tabs << tab	
-			user.save
-		end
 		user = current_user
 		user.tabs << tab
 		user.save

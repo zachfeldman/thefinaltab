@@ -1,5 +1,4 @@
 %script{:src => '/scripts/tab_add_user.js'}
-%br
 %div{:id => "emails"}
 %h1
   Modify
@@ -13,7 +12,6 @@
     Add to Tab
   %br
   %span.result
-  %br
   %br
   %input.allUserIds{:type => "hidden"}
   %table{:id => "userTable", :style => "position: relative; left: 20px"}
@@ -41,8 +39,7 @@
             %span{:class => user.id, :id => "userId"}
               =user.name
   %br      
-  %input.btn.btn-large.addTab{:type => "submit"}
-    Create Tab
+  %a.btn.btn-custom{:href => '/tabs/' + @tab.id.to_s} Back to Tab
 %div{:class => @tab.id, :id => 'tabId'}
 .modal.hide.fade{:id => "deleteModal"}
   .modal-header

@@ -1,17 +1,6 @@
 %h1
   Your tab
   %b
-    %a{:href => '/tabs/'+@tab.id}
+    %a{:href => '/tabs/'+@tab.id.to_s}
       =@tab.name
   has been created.
-%h3
-  The following users have been added to the tab besides you:
-%table
--@tab.users.each do |user|
-  %tr
-  %td
-    %img{:src => user.picture}
-  %td
-    &nbsp;&nbsp;
-    %span{:class => user.id, :id => "userId"}
-    =user.name 
