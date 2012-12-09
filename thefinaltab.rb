@@ -90,6 +90,7 @@ get '/' do
   	@user = current_user
 		haml :home
 	else
+    @user = current_user
   	haml :welcome
 	end
 end
@@ -213,6 +214,10 @@ get '/home' do
 	puts current_user
 	@user = current_user 
 	haml :home
+end
+
+get '/email' do
+  haml :email_welcome
 end
 
 # any of the following routes should work to sign the user in: 

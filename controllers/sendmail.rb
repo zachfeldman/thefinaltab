@@ -1,7 +1,7 @@
 def send_invite(email, fname)
 
   html = "<h1>" + fname + " wants you to use The Final Tab to split the bills.</h1>
-	Your friend has invited you to use The Final Tab to make it easy to split your bills. <a href='http://thefinaltab.com'>
+	Your friend has invited you to use The Final Tab to make it easy to split your bills. <a href='http://thefinaltab.com/email'>
 	Sign up today</a> for your free account to get started.<br/><br/><div style='font-size: 9px'>Sent this e-mail in error? <a href='http://thefinaltab.com'>Click here</a> to unsubscribe.</div>"
 
   Mail.defaults do

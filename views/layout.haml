@@ -27,18 +27,22 @@
           %ul.nav.nav-pills
             -if(request.path_info.slice(0..4) != "/tabs")
               %li.tabs{:class=>"active"}
-                %a{:href => "/",}
+                %a{:href => "/"}
                   Home
             -else
               %li.tabs
-                %a{:href => "/",}
+                %a{:href => "/"}
                   Home
-            -if(request.path_info.start_with?("/tabs"))
-              %li.tabs{:class=>"active"}
-                %a{:href => "/tabs",}
-                  Tabs
-            -else
-              %li.tabs
-                %a{:href => "/tabs",}
-                  Tabs
+            -if(@user != nil)
+              -if(request.path_info.start_with?("/tabs"))
+                %li.tabs{:class=>"active"}
+                  %a{:href => "/tabs"}
+                    Tabs
+              -else
+                %li.tabs
+                  %a{:href => "/tabs"}
+                    Tabs
+              %li.logout
+                %a{:href=> "/logout"}
+                  Logout
           =yield
