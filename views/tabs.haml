@@ -1,0 +1,10 @@
+%h2
+  Your Tabs
+-@user.tabs.each do |tab|
+  %a.tab.btn.btn-small{:href=>"/tabs/"+ tab.id.to_s}
+    =tab.name
+%br
+%br
+%a.btn.btn-custom{:href => "/tabs/create"}
+  Create A New Tab
+%br

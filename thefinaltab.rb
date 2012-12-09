@@ -27,7 +27,7 @@ class User
   property :uid,        String
   property :name,       String
   property :nickname,   String
-  property :picture,    Text, :lazy => false
+  property :picture,    Text, :lazy => false, :default => "/images/defaultprofile.png"
 	property :f_url,			String
 	property :location,   String
 	property :email,			String
@@ -99,6 +99,11 @@ get '/tabs/create' do
 	@user = current_user
 	haml :tabs_create
 
+end
+
+get '/tabs' do
+  @user = current_user
+  haml :tabs
 end
 
 post '/tabs/:id/adduser/:email' do

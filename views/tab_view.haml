@@ -2,24 +2,27 @@
 %link{:rel => 'stylesheet', :href => '/styles/tabs.css'}
 %h1
   =@tab.name
-%a.btn.btn-large.btn-primary{:href => "/tabs/#{@tab.id}/settle"}
-  Settle
+  %a.btn.btn-medium.btn-custom.settle{:href => "/tabs/#{@tab.id}/settle"}
+    Settle
+%hr.divider
 %h3
   Participants
-%table{:id => "users", :cellpadding => "10"}
+  %a.btn.btn-custom.btn-medium{:href => "/tabs/#{@tab.id}/add"}
+    Add/Remove
+%table{:id => "users", :cellpadding => 5}
   -@tab.users.each do |user|
     %tr
       %td
         %img{:src => user.picture}
-      %td
+      %td.tabUsers
         &nbsp;&nbsp;
         %span{:class => user.id, :id => "userId"}
-        =user.name
-%br
-%a.btn.btn-medium{:href => "/tabs/#{@tab.id}/add"}
-  Add
-%br
-%form{:id => "newBill"} 
+        -if(user.name == nil)
+          =user.email
+        -else
+          =user.name
+%form{:id => "newBill"}
+  %br 
   %table{:id => "addBill", :style => "display: none", :action => ""}
     %tr
       %td
@@ -34,8 +37,10 @@
         %button.btn.btn-inverse{:id => "billSubmit", :type=> "submit"}
           Add Bill
 %span.newBillMsg
+%hr.divider
 %h3
   Bills
+To add a new bill, simply click the user's name who paid the bill from the list above, then fill out all necessary information.
 %table{:id => "bills", :style => "border: 2px dotted #CCCCCC;", :border => "2", :cellpadding => "6px"}
   %thead
     %tr
@@ -58,7 +63,7 @@
         %td 
           %input{:name => "billName", :value => bill.name, :id => "billName"}
         %td 
-          %input{:name => "billAmount", :value => bill.amount, :id => "billAmount", :class=> "input-small"}
+          %input{:name => "billAmount", :value => "%.2f" % bill.amount, :id => "billAmount", :class=> "input-small"}
         %td 
           %input{:name => "billUser", :value => bill.user.name, :id => "billUser", :disabled => ""}
         %td
