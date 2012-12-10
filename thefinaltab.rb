@@ -9,14 +9,6 @@ require 'will_paginate'
 require 'will_paginate/array'
 require './will_paginate_sinatra_renderer'
 
-https = Net::HTTP.new('encrypted.google.com', 443)
-https.use_ssl = true
-https.verify_mode = OpenSSL::SSL::VERIFY_PEER
-https.ca_path = '/etc/ssl/certs' if File.exists?('/etc/ssl/certs') # Ubuntu
-https.ca_file = '/opt/local/share/curl/curl-ca-bundle.crt' if File.exists?('/opt/local/share/curl/curl-ca-bundle.crt') # Mac OS X
-https.request_get('/')
-
-
 %w(omniauth omniauth-twitter omniauth-facebook dm-migrations dm-validations).each { |dependency| require dependency }
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/database.db")
@@ -67,10 +59,6 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-# You'll need to customize the following line. Replace the CONSUMER_KEY 
-#   and CONSUMER_SECRET with the values you got from Twitter 
-#   (https://dev.twitter.com/apps/new).
-#use OmniAuth::Strategies::Twitter, 'E8K6s1icpzo2a2ZEjkwnzw', 'dcbsffTJNyKIQA8xxWqLW5UMKF8yVF7gpCdMBmMrtTo'
 use OmniAuth::Strategies::Facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET']
 enable :sessions
 
@@ -243,15 +231,12 @@ get '/email' do
   haml :email_welcome
 end
 
-# any of the following routes should work to sign the user in: 
-#   /sign_up, /signup, /sign_in, /signin, /log_in, /login
 ["/sign_in/?", "/signin/?", "/log_in/?", "/login/?", "/sign_up/?", "/signup/?"].each do |path|
   get path do
     redirect '/auth/facebook'
   end
 end
 
-# either /log_out, /logout, /sign_out, or /signout will end the session and log the user out
 ["/sign_out/?", "/signout/?", "/log_out/?", "/logout/?"].each do |path|
   get path do
     session[:user_id] = nil
