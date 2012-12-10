@@ -7,7 +7,7 @@
 %hr.divider
 %h3
   Participants
-  %a.btn.btn-custom.btn-medium{:href => "/tabs/#{@tab.id}/add"}
+  %a.btn.btn-custom.btn-medium{:href => "/tabs/#{@tab.id}/users/modify"}
     Add/Remove
 %table{:id => "users", :cellpadding => 5}
   -@tab.users.each do |user|

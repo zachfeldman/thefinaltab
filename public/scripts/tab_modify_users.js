@@ -9,7 +9,7 @@ $(document).ready(function() {
     var email = $("input[name='tabUsers']").val();
     var tabId = $("#tabId").attr("class");
     if(isValidEmailAddress(email)){
-      $.post('/tabs/'+ tabId + '/adduser/'+email, function(data) {
+      $.post('/tabs/'+ tabId + 'users/add/'+email, function(data) {
         if(data == "sent"){
           $('.result').html("Invitation sent!");
         } else if(data == "alreadySent"){
@@ -67,7 +67,7 @@ $(document).ready(function() {
   $("#deleteUser").click( function(){
     var userId = $("#userDeleteId").text();
     var tabId = $("#tabId").attr("class");
-    $.post('/tabs/'+ tabId + '/deleteuser/'+userId, function(data) {
+    $.post('/tabs/'+ tabId + '/users/delete/'+userId, function(data) {
       var Id = $("#userDeleteId").val();
       $("tr#" + userId).hide();
       $('#deleteModal').modal('hide');

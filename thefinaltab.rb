@@ -1,97 +1,19 @@
-require 'rubygems'
-require 'sinatra'
-require 'haml'
-require 'net/https'
-require 'mail'
-require './controllers/sendmail'
-require './controllers/calculate'
-require 'will_paginate'
-require 'will_paginate/array'
-require './will_paginate_sinatra_renderer'
-
-%w(omniauth omniauth-twitter omniauth-facebook dm-migrations dm-validations).each { |dependency| require dependency }
-DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/database.db")
-class User
-  include DataMapper::Resource
-  property :id,         Serial
-  property :uid,        String
-  property :name,       String
-  property :nickname,   String
-  property :picture,    Text, :lazy => false, :default => "/images/defaultprofile.png"
-	property :f_url,			String
-	property :location,   String
-	property :email,			String
-	property :email_sent,	Integer
-	property :created_at, DateTime
-	
-	def fname
-
-		self.name.split[0]
-
-	end
-
-	has n, :tabs, :through => Resource
-	has n, :bills
-end
-
-class Tab
-	include DataMapper::Resource
-	property :id,				Serial
-	property :name,			String
-	property :notes,		Text
-
-	has n, :bills
-	has n, :users, :through => Resource
-end
-
-class Bill
-  include DataMapper::Resource
-    property :id,   Serial
-    property :name, Text 
-    property :amount, Float
-    property :notes, Text
-
-    belongs_to :user
-		belongs_to :tab
-end
-
-DataMapper.finalize
-DataMapper.auto_upgrade!
+%w(
+rubygems
+sinatra
+haml
+net/https
+mail
+./controllers/sendmail ./controllers/calculate
+will_paginate will_paginate/array ./will_paginate_sinatra_renderer
+omniauth omniauth-twitter omniauth-facebook
+dm-migrations dm-validations ./models/main
+./helpers).each { |dependency| require dependency }
 
 use OmniAuth::Strategies::Facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET']
 enable :sessions
 
-helpers do
-  def current_user
-    @current_user ||= User.get(session[:user_id]) if session[:user_id]
-  end
-	def partial(page, options={})
-		haml page, options.merge!(:layout => false)
-	end
-  def picture(userPicture)
-    if(userPicture == nil)
-      return "/images/defaultprofile.png"
-    else
-      return userPicture
-    end
-  end
-  def deleteAllowed(sessionUserId, theUserId)
-    if(sessionUserId == theUserId)
-      return ""
-    else
-      return "userDeleteButton"
-    end
-  end
-  def nameOrEmail(billUser)
-    if(billUser.name == nil)
-      return billUser.email
-    else
-      return billUser.name
-    end
-  end
-end
-
+#main routes
 get '/' do
 	puts current_user
   if current_user
@@ -103,6 +25,21 @@ get '/' do
 	end
 end
 
+get '/home' do
+  @user = current_user 
+  haml :home
+end
+
+get '/email' do
+  haml :email_welcome
+end
+
+#tab routes
+get '/tabs' do
+  @user = current_user
+  haml :tabs
+end
+
 get '/tabs/create' do
 
 	@user = current_user
@@ -110,12 +47,7 @@ get '/tabs/create' do
 
 end
 
-get '/tabs' do
-  @user = current_user
-  haml :tabs
-end
-
-post '/tabs/:id/adduser/:email' do
+post '/tabs/:id/users/add/:email' do
 	email = params[:email]
 	user = User.first_or_create(:email => email)
   tab = Tab.first(:id => params[:id])
@@ -137,7 +69,7 @@ post '/tabs/:id/adduser/:email' do
 	end
 end
 
-post '/tabs/:tabId/deleteuser/:userId' do
+post '/tabs/:tabId/users/delete/:userId' do
   tab = Tab.first(:id => params[:tabId])
   user = User.first(:id => params[:userId])
   tab.bills(:user_id => user.id).destroy
@@ -146,7 +78,7 @@ post '/tabs/:tabId/deleteuser/:userId' do
   return true
 end
 
-get '/tabs/:id/add' do
+get '/tabs/:id/users/modify' do
   @tab = Tab.first(:id => params[:id])
   @user = session[:user_id]
   return haml :tab_modify_users
@@ -204,6 +136,7 @@ post '/bills/new' do
 	end
 end
 
+#auth routes
 get '/auth/:name/callback' do
   auth = request.env["omniauth.auth"]
   user = User.first_or_create({:email => auth["info"]["email"], :name => auth["info"]["name"]},{
@@ -220,15 +153,6 @@ get '/auth/:name/callback' do
 		:bills => []	})
 		session[:user_id] = user.id
   redirect '/home'
-end
-
-get '/home' do
-	@user = current_user 
-	haml :home
-end
-
-get '/email' do
-  haml :email_welcome
 end
 
 ["/sign_in/?", "/signin/?", "/log_in/?", "/login/?", "/sign_up/?", "/signup/?"].each do |path|

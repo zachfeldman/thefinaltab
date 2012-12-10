@@ -5,13 +5,15 @@ def send_invite(email, fname)
 	Sign up today</a> for your free account to get started.<br/><br/><div style='font-size: 9px'>Sent this e-mail in error? <a href='http://thefinaltab.com'>Click here</a> to unsubscribe.</div>"
 
   Mail.defaults do
-    delivery_method :smtp, { :address   => "smtp.sendgrid.net",
-                             :port      => 587,
-                             :domain    => "thefinaltab.com",
-                             :user_name => ENV['SENDGRID_USERNAME'],
-                             :password  => ENV['SENDGRID_PASSWORD'],
-                             :authentication => 'plain',
-                             :enable_starttls_auto => true }
+    delivery_method :smtp, {
+      :address   => "smtp.sendgrid.net",
+      :port      => 587,
+      :domain    => "thefinaltab.com",
+      :user_name => ENV['SENDGRID_USERNAME'],
+      :password  => ENV['SENDGRID_PASSWORD'],
+      :authentication => 'plain',
+      :enable_starttls_auto => true
+    }
   end
 
   mail = Mail.deliver do
@@ -26,6 +28,5 @@ def send_invite(email, fname)
       body html
     end
   end
-
 
 end
