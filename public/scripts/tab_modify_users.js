@@ -9,7 +9,7 @@ $(document).ready(function() {
     var email = $("input[name='tabUsers']").val();
     var tabId = $("#tabId").attr("class");
     if(isValidEmailAddress(email)){
-      $.post('/tabs/'+ tabId + 'users/add/'+email, function(data) {
+      $.post('/tabs/'+ tabId + '/users/add/'+email, function(data) {
         if(data == "sent"){
           $('.result').html("Invitation sent!");
         } else if(data == "alreadySent"){
